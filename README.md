@@ -159,12 +159,25 @@ api:
 
 **传入**
 api:
+
 |key|type|
 |---|---|
 |userid|int|
 
 **返回**
+
 |key|type|description|
 |---|---|---|
 |state|string|error,success|
 |information|string|报错信息，如果是error的话|
+
+### 题目模块
+
+#### 题目列表
+api:
+
+|key|type|description|
+|----|----|----|
+|quid|int|题目编号|
+|qutagname|string|问题知识点名称|
+|levelid|int|题目对应年级|

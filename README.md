@@ -174,10 +174,166 @@ api:
 ### 题目模块
 
 #### 题目列表
+用来获得不完整信息
 api:
 
 |key|type|description|
 |----|----|----|
 |quid|int|题目编号|
 |qutagname|string|问题知识点名称|
-|levelid|int|题目对应年级|
+|quval|float|题目分值|
+|qudifficult|int|题目难度|
+|schoolname|string|学校姓名|
+|schooltype|string|试题对应难度(小学高中大学)|
+
+
+#### 获取单个题目
+api:
+
+**传入**
+
+|key|type|description|
+|----|-----|-----|
+|quid|int|题目编号|
+
+**返回**
+
+|key|type|descroption|
+|----|----|----|
+|quid|int|题目id|
+|qutype|string|题目类型|
+|qudetail|string|题目内容|
+|quans|string|题目答案|
+|quval|float|题目分值|
+|qudifficulty|int|题目难度|
+|schoolname|string|学校姓名|
+|schooltype|string|试题难度类型(小学,高中,大学)|
+|qutagname|json|试题知识点|
+|quleave|string|试题对应年纪|
+
+其中知识点对应的json格式
+for example:
+```json
+{
+    "num":2,
+    "1":"动态规划",
+    "2":"kd tree"
+}
+```
+
+#### 单个题目更改
+api:
+> 目前感觉要联合动知识点表比较难，先做到改题目表
+
+**传入**
+
+|key|type|description|
+|---|----|----|
+|quid|int|题目id|
+|qutype|string|题目类型|
+|qudetail|string|题目内容|
+|quans|string|题目答案|
+|quval|float|题目分值|
+|qudifficulty|int|题目难度|
+|schoolname|string|学校姓名|
+|schooltype|string|试题难度类型(小学,高中,大学)|
+
+**返回**
+|key|type|descrption|
+|----|----|----|
+|state|string|success or error|
+
+#### 单个题目上传
+
+**传入**
+
+|key|type|description|
+|---|----|----|
+|quid|int|题目id|
+|qutype|string|题目类型|
+|qudetail|string|题目内容|
+|quans|string|题目答案|
+|quval|float|题目分值|
+|qudifficulty|int|题目难度|
+|schoolname|string|学校姓名|
+|schooltype|string|试题难度类型(小学,高中,大学)|
+|qulevel|string|对应年纪|
+|qutags|json|题目对应所有知识点名称|
+
+example
+```json
+{
+    "qiud":"1",
+    "qutype":"math",
+    "qudetail":"1+1=?",
+    "quans":"2",
+    "quval":1,
+    "qudifficulty":0,
+    "schoolname":"上海大学",
+    "schooltype":"大学",
+    "qulevel":"大学一年级",
+    "qutag":{
+        "num":3,
+        "1":"数学",
+        "2":"基础数学",
+        "3":"高等数学"
+    }
+}
+```
+#### 删除题目
+api:
+
+**传入**
+
+|key|type|
+|---|---|
+|quid|int|
+
+**返回**
+
+|key|type|description|
+|---|---|----|
+|state|string|error or success|
+
+#### 题目查询
+api
+> 根据关键字进行查找
+
+**传入**
+
+|key|type|description|
+|---|---|----|
+|quid|int|默认null|
+|tagname|string|默认没有|
+|qulevel|string|默认没有|
+|quval|float|默认没有|
+|qutype|string|题目类型|
+|qudifficulty|string|题目类型|
+
+> 讲道理现在不晓得如何做到对一个题目多个标签进行查询
+
+**传出**
+
+|key|type|
+|---|---|
+|nums|int|
+|question|json|
+
+> 对于每一个question
+
+|key|type|description|
+|----|----|----|
+|quid|int|题目编号|
+|qutagname|string|问题知识点名称|
+|quval|float|题目分值|
+|qudifficult|int|题目难度|
+|schoolname|string|学校姓名|
+|schooltype|string|试题对应难度(小学高中大学)|
+
+## 组卷
+
+> 还不晓得怎么搞，先写那个给我的值把
+
+|key|type|description|
+|----|----|----|
+|

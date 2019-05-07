@@ -126,10 +126,45 @@
 > 如果是state是success
 > 返回是登录用户的身份
 
-### 用户信息查询
+#### 用户信息查询
 
+api:
+
+|key|value|
+|----|---|
+|nums|int|
+|user||
+返回对于每个用户
+|key|type|description
+|---|---|---|
+|userid|int|唯一的标识|
+|username|string||
+|usertype|string|两种questionrecorder,或questionadmin|
+|useremail|string||
+|userphone|string|
+**for example**
+```json
+{
+    "nums":1,
+    "1":{
+        "userid":"1",
+        "username":"langman",
+        "usertype":"questionadmin",
+        "useremail":"langman@gmail.com",
+        "userphone":"10086"
+    }
+}
+```
+#### 用户删除
+
+**传入**
+api:
 |key|type|
-|----|----|
-|
+|---|---|
+|userid|int|
 
-
+**返回**
+|key|type|description|
+|---|---|---|
+|state|string|error,success|
+|information|string|报错信息，如果是error的话|

@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -47,4 +51,16 @@ public class UserServiceImpl implements UserService {
     public int GetUserTtpe(String username) {
         return GetUser(username).getUsertype();
     }
+
+    @Override
+    public List<User> getAlluser() {
+        Iterator<User> userIterator = userReponsitory.findAll().iterator();
+        List<User> userlist= new ArrayList<>();
+        while (userIterator.hasNext())
+        {
+            userlist.add(userIterator.next());
+        }
+        return userlist;
+    }
+
 }

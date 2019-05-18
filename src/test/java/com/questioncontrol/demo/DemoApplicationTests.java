@@ -7,6 +7,8 @@ import com.questioncontrol.demo.Dto.QuestionData;
 import com.questioncontrol.demo.Dto.QuestionTag;
 import com.questioncontrol.demo.Dto.User;
 
+import com.questioncontrol.demo.Service.UserService;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,20 +23,14 @@ import java.util.List;
 public class DemoApplicationTests {
 
     @Autowired
-    UserReponsitory userReponsitory;
-    @Autowired
-    QuestionDAtaReponsitory questionDAtaReponsitory;
-    @Autowired
-    QuestionTagReponsitory questionTagReponsitory;
-
+    UserService userServiceiml;
 
     @Test
     public void contextLoads() throws Exception{
 
-        User persion = userReponsitory.findByUsername("test0");
-
-
-
+        List<User> userList = userServiceiml.getAlluser();
+        JSONArray userjson = new JSONArray(userList.toString());
+        System.out.println(userjson);
     }
 
 }

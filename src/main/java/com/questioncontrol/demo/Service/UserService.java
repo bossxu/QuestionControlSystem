@@ -2,6 +2,8 @@ package com.questioncontrol.demo.Service;
 
 import com.questioncontrol.demo.Dto.User;
 
+import java.util.List;
+
 public interface UserService {
 
     void create(String username, String userpwd, int usertype);
@@ -12,6 +14,10 @@ public interface UserService {
 
     User GetUser(String username);
 
-    int GetUserTtpe(String username);
+    int GetUserTypebyUsername(String username);
+
+    List<User> getAlluser();
+
+    int GetUserTypebyUserid(String id);
 
 }

@@ -6,18 +6,19 @@ import java.util.List;
 
 public interface UserService {
 
-    void create(String username, String userpwd, int usertype);
+    void create(User persion);
 
-    void delete(long id);
+    void delete(int id);
 
     boolean UsernameExist(String username);
 
     User GetUser(String username);
 
-    int GetUserTypebyUsername(String username);
-
     List<User> getAlluser();
 
-    int GetUserTypebyUserid(String id);
+    void changeTouadmin(String username);
+
+    int GetuserId(String username);
+
 
 }

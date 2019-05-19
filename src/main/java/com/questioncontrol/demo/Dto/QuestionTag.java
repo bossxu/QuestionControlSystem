@@ -11,9 +11,11 @@ import java.util.List;
 @Table(name = "questiontag")
 public class QuestionTag {
 
+    // 小一点的tag 函数,数列
+
     @Id
     @GeneratedValue
-    private Integer tagid;
+    private Integer tagid = 0;
 
     @Column(name = "tagname")
     private String tagname;
@@ -24,10 +26,12 @@ public class QuestionTag {
 
     @ManyToMany(mappedBy = "taglist",fetch=FetchType.EAGER)
     @JsonIgnore
-    private List<QuestionData> QuestionList;
+    private List<QuestionData> questionList;
 
     public QuestionTag(String tagname) {
+        this.tagid = 0;
         this.tagname = tagname;
+        this.questionList = new ArrayList<>();
     }
 
     public void setTagid(int tagid) {
@@ -44,8 +48,20 @@ public class QuestionTag {
 
     public QuestionTag()
     {
-        this.QuestionList = new ArrayList<>();
+        this.tagid = 0;
+        this.tagname = "init";
+        this.questionList = new ArrayList<>();
     }
+
+    public List<QuestionData> getQuestionList() {
+        return questionList;
+    }
+
+    public void setQuestionList(List<QuestionData> questionList) {
+        questionList = questionList;
+    }
+
+
 
     @Override
     public String toString() {

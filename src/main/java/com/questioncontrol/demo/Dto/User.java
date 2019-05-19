@@ -12,7 +12,7 @@ public class User {
     // 2 人员管理员
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id = 0;
 
     @Column(name = "username")
     private String username;
@@ -24,28 +24,30 @@ public class User {
     private int usertype = 0;
 
     public User(String username,String userpwd,int usertype) {
+        this.id = 0;
         this.username = username;
         this.userpwd = userpwd;
         this.usertype = usertype;
     }
-    public User(){}
+    public User(){
+        this.id = 0;
+    }
 
 
     @Override
     public String toString() {
         return "{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
-                ", userpwd='" + userpwd + '\'' +
+                ",username="+username+
                 ", usertype=" + usertype +
                 '}';
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

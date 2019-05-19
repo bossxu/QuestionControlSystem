@@ -19,20 +19,19 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void create(String username, String userpwd,int usertype) {
+    public void create(User persion) {
 
         User newUesr = new User();
-        newUesr.setUsername(username);
-        newUesr.setUserpwd(userpwd);
-        newUesr.setUsertype(usertype);
-        long a = 0;
+        newUesr.setUsername(persion.getUsername());
+        newUesr.setUserpwd(persion.getUserpwd());
+        newUesr.setUsertype(persion.getUsertype());
+        int a = 0;
         newUesr.setId(a);
         userReponsitory.save(newUesr);
-
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(int id) {
         userReponsitory.deleteById(id);
     }
 
@@ -48,8 +47,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int GetUserTtpe(String username) {
-        return GetUser(username).getUsertype();
+    public void changeTouadmin(String username) {
+        User persion = userReponsitory.findByUsername(username);
+        persion.setUsertype(2);
+        userReponsitory.save(persion);
     }
 
     @Override
@@ -63,4 +64,8 @@ public class UserServiceImpl implements UserService {
         return userlist;
     }
 
+    @Override
+    public int GetuserId(String username) {
+        return GetUser(username).getId();
+    }
 }

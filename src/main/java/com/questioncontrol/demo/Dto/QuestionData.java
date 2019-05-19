@@ -2,13 +2,14 @@ package com.questioncontrol.demo.Dto;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.json.JSONObject;
 @Entity
 @Table(name = "questiondata")
 public class QuestionData {
@@ -17,23 +18,60 @@ public class QuestionData {
     @GeneratedValue
     private Integer quid;
 
-    private String qutype;
+    private String qutype; // 选择题，填空题，大题
     private String qudetail;
     private String quans;
     private double quval;
     private int qudifficult;
     private String shoolname;
     private String schooltype;
-    private String level;
 
-    @JsonIgnore
-    @ManyToMany(fetch=FetchType.EAGER)
+    @JsonIgnoreProperties(value = "questionList")
+    @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(
             name = "tagconnect",
             joinColumns = {@JoinColumn(name = "quid")},
             inverseJoinColumns = {@JoinColumn(name = "tagid")}
     )
     private List<QuestionTag>taglist;
+
+    @JsonIgnoreProperties(value = "questionDataList")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "levelconnect",
+            joinColumns = {@JoinColumn(name = "quid")},
+            inverseJoinColumns = {@JoinColumn(name = "levid")}
+    )
+    private List<Level> levelList;
+
+    // 这个题目所被使用的试卷
+
+    @JsonIgnoreProperties(value = "questionDataList")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "examconnect",
+            joinColumns = {@JoinColumn(name = "quid")},
+            inverseJoinColumns = {@JoinColumn(name = "examid")}
+    )
+    private List<Exampaper> examlist;
+
+
+
+    public List<Level> getLevelList() {
+        return levelList;
+    }
+
+    public void setLevelList(List<Level> levelList) {
+        this.levelList = levelList;
+    }
+
+    public List<Exampaper> getExamlist() {
+        return examlist;
+    }
+
+    public void setExamlist(List<Exampaper> examlist) {
+        examlist = examlist;
+    }
 
     public void setQuid(Integer quid) {
         this.quid = quid;
@@ -47,17 +85,6 @@ public class QuestionData {
         this.taglist = taglist;
     }
 
-    public QuestionData(String qutype) {
-        this.qutype = qutype;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
 
     public String getQudetail() {
         return qudetail;
@@ -122,8 +149,56 @@ public class QuestionData {
     public void setQutype(String qutype) {
         this.qutype = qutype;
     }
+    public QuestionData(Questiondto questiondto)
+    {
+        this.quans = questiondto.getQuans();
+        this.quid = 0;
+        this.qudetail = questiondto.getQudetail();
+        this.qutype = questiondto.getQutype();
+        this.qudifficult = questiondto.getQudifficult();
+        this.shoolname = questiondto.getSchoolname();
+        this.schooltype = questiondto.getSchooltype();
+        this.quval = questiondto.getQuval();
+        this.taglist = new ArrayList<>();
+        this.examlist = new ArrayList<>();
+        this.levelList = new ArrayList<>();
+    }
     public QuestionData()
     {
+        this.levelList = new ArrayList<>();
+        this.examlist = new ArrayList<>();
         this.taglist = new ArrayList<>();
     }
+    public QuestionData(JSONObject questionjson)
+    {
+        try {
+            this.quval = questionjson.getDouble("quval");
+            this.shoolname = questionjson.getString("schoolname");
+            this.qudifficult = questionjson.getInt("qudifficult");
+            this.qutype = questionjson.getString("qutype");
+            this.qudetail = questionjson.getString("qudetail");
+            this.quid = 0;
+            this.quans = questionjson.getString("quans");
+            this.examlist = new ArrayList<>();
+            this.levelList = new ArrayList<>();
+            this.taglist = new ArrayList<>();
+        }
+        catch (Exception e)
+        {
+            System.out.println("题目创建失败");
+        }
+    }
+    public void addtag(QuestionTag tag)
+    {
+        this.taglist.add(tag);
+    }
+    public void addlevel(Level level)
+    {
+        this.levelList.add(level);
+    }
+    public void addExam(Exampaper exam)
+    {
+        this.examlist.add(exam);
+    }
+
 }

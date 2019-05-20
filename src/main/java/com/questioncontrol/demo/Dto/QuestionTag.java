@@ -69,4 +69,11 @@ public class QuestionTag {
                 "tagname='" + tagname + '\'' +
                 "}";
     }
+
+    public QuestionTag(Tagdto tagdto)
+    {
+        this.tagid = tagdto.getTagid();
+        this.tagname = tagdto.getTagname();
+        this.questionList = new ArrayList<>();
+    }
 }

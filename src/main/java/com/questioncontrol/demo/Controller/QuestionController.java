@@ -20,7 +20,7 @@ public class QuestionController {
     @Autowired
     QuestionServiceImpl questionService;
 
-    @PostMapping(value = "/all")
+    @GetMapping(value = "/all")
     public List<QuestionInfo> GetAllquestions()
     {
         return questionService.GetAllQuestioninfo();
@@ -48,5 +48,13 @@ public class QuestionController {
     public QuestionData GetOnequestiondetail(@PathVariable int id)
     {
         return questionService.GetQuestionDetail(id);
+    }
+
+    @PostMapping(value = "change")
+    public String ChangeQuestion(@RequestBody Questiondto questiondto)
+    {
+        questionService.deleteQuestion(questiondto.getQuid());
+        CreateNewQuestion(questiondto);
+        return "{\"state\":\"success\"}";
     }
 }

@@ -49,19 +49,20 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Integer> GetQuestionsbyTag(String tagname) {
-        List<Integer> questionidlist = new ArrayList<>();
+    public List<QuestionInfo> GetQuestionsbyTag(String tagname) {
+        List<QuestionInfo> questionidlist = new ArrayList<>();
         List<QuestionData> questionDataList = GetQuestiontag(tagname).getQuestionList();
         Iterator<QuestionData> it= questionDataList.listIterator();
         while(it.hasNext())
         {
-            questionidlist.add(it.next().getQuid());
+            questionidlist.add(new QuestionInfo(it.next()));
         }
         return questionidlist;
     }
 
     @Override
-    public List<Integer> GetQuestionlistbykey(String key) {
+    public List<QuestionInfo> GetQuestionlistbykey(String key) {
+
         return null;
     }
 
@@ -143,5 +144,60 @@ public class QuestionServiceImpl implements QuestionService {
             questionData.addtag(questionTagReponsitory.findByTagname(tagname));
         }
         questionDataReponsitory.save(questionData);
+    }
+
+    @Override
+    public List<QuestionTag> Getalltags() {
+        Iterator<QuestionTag> it = questionTagReponsitory.findAll().iterator();
+        List<QuestionTag> questionTagList = new ArrayList<>();
+        while(it.hasNext())
+        {
+            questionTagList.add(it.next());
+        }
+        return questionTagList;
+    }
+
+    @Override
+    public void deletetag(int id) {
+        questionTagReponsitory.deleteById(id);
+    }
+
+    @Override
+    public List<Level> GetallLevel() {
+        Iterator<Level> it = levelReponsitory.findAll().iterator();
+        List<Level> levelList = new ArrayList<>();
+        while(it.hasNext())
+        {
+            levelList.add(it.next());
+        }
+        return levelList;
+    }
+
+    @Override
+    public List<Exampaper> GetallExam() {
+        Iterator<Exampaper> it = exampaperReponsitory.findAll().iterator();
+        List<Exampaper> examList = new ArrayList<>();
+        while(it.hasNext())
+        {
+            examList.add(it.next());
+        }
+        return examList;
+    }
+
+    @Override
+    public List<QuestionInfo> GetQuestionsbyExam(int examid) {
+        Exampaper exampaper= exampaperReponsitory.findById(examid).get();
+        List<QuestionInfo> questionInfoList = new ArrayList<>();
+        Iterator<QuestionData> it = exampaper.getQuestionDataList().listIterator();
+        while(it.hasNext())
+        {
+            questionInfoList.add(new QuestionInfo(it.next()));
+        }
+        return questionInfoList;
+    }
+
+    @Override
+    public String gettagnamebyid(int tagid) {
+        return questionTagReponsitory.findById(tagid).get().getTagname();
     }
 }

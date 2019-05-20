@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Questiondto {
 
+    private int quid;
     private String qutype; // 选择题，填空题，大题
     private String qudetail;
     private String quans;
@@ -100,5 +101,13 @@ public class Questiondto {
 
     public void setExamlist(List<String> examlist) {
         this.examlist = examlist;
+    }
+
+    public int getQuid() {
+        return quid;
+    }
+
+    public void setQuid(int quid) {
+        this.quid = quid;
     }
 }

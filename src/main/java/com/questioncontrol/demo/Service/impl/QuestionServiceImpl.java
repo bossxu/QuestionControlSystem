@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -62,9 +63,15 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionInfo> GetQuestionlistbykey(String key) {
-
-        return null;
-    }
+        List<QuestionInfo> questionInfoList  = new ArrayList<>();
+        List<QuestionData> questionDataList = questionDataReponsitory.findBykeyword(key);
+        Iterator<QuestionData> it = questionDataList.listIterator();
+        while(it.hasNext())
+        {
+            questionInfoList.add(new QuestionInfo(it.next()));
+        }
+        return questionInfoList;
+     }
 
     @Override
     public QuestionData GetQuestionDetail(int quid) {

@@ -22,7 +22,7 @@ public class QuestionInfo {
         this.quid = questiondetail.getQuid();
         this.quval = questiondetail.getQuval();
         this.qudifficult = questiondetail.getQudifficult();
-        this.schoolname = questiondetail.getShoolname();
+        this.schoolname = questiondetail.getSchoolname();
         this.schooltype = questiondetail.getSchooltype();
         this.taglist = new ArrayList<>();
         for(int i = 0;i<questiondetail.getTaglist().size();i++)

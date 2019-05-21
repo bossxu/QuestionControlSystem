@@ -2,6 +2,7 @@ package com.questioncontrol.demo.Controller;
 
 
 import com.questioncontrol.demo.Dao.QuestionDAtaReponsitory;
+import com.questioncontrol.demo.Dto.Keydto;
 import com.questioncontrol.demo.Dto.QuestionData;
 import com.questioncontrol.demo.Dto.QuestionInfo;
 import com.questioncontrol.demo.Dto.Questiondto;
@@ -50,11 +51,19 @@ public class QuestionController {
         return questionService.GetQuestionDetail(id);
     }
 
-    @PostMapping(value = "change")
+    @PostMapping(value = "/change")
     public String ChangeQuestion(@RequestBody Questiondto questiondto)
     {
         questionService.deleteQuestion(questiondto.getQuid());
         CreateNewQuestion(questiondto);
         return "{\"state\":\"success\"}";
     }
+
+    @PostMapping(value = "/search")
+    public List<QuestionInfo> GetQuestionsListbyKey(@RequestBody Keydto keydto)
+    {
+        System.out.println(keydto.getKeyword());
+        return questionService.GetQuestionlistbykey(keydto.getKeyword());
+    }
+
 }

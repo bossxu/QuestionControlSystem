@@ -23,7 +23,7 @@ public class QuestionData {
     private String quans;
     private double quval;
     private int qudifficult;
-    private String shoolname;
+    private String schoolname;
     private String schooltype;
 
     @JsonIgnoreProperties(value = "questionList")
@@ -118,12 +118,12 @@ public class QuestionData {
         this.qudifficult = qudifficult;
     }
 
-    public String getShoolname() {
-        return shoolname;
+    public String getSchoolname() {
+        return schoolname;
     }
 
-    public void setShoolname(String shoolname) {
-        this.shoolname = shoolname;
+    public void setSchoolname(String shoolname) {
+        this.schoolname = shoolname;
     }
 
     public String getSchooltype() {
@@ -156,7 +156,7 @@ public class QuestionData {
         this.qudetail = questiondto.getQudetail();
         this.qutype = questiondto.getQutype();
         this.qudifficult = questiondto.getQudifficult();
-        this.shoolname = questiondto.getSchoolname();
+        this.schoolname = questiondto.getSchoolname();
         this.schooltype = questiondto.getSchooltype();
         this.quval = questiondto.getQuval();
         this.taglist = new ArrayList<>();
@@ -173,7 +173,7 @@ public class QuestionData {
     {
         try {
             this.quval = questionjson.getDouble("quval");
-            this.shoolname = questionjson.getString("schoolname");
+            this.schoolname = questionjson.getString("schoolname");
             this.qudifficult = questionjson.getInt("qudifficult");
             this.qutype = questionjson.getString("qutype");
             this.qudetail = questionjson.getString("qudetail");

@@ -1,6 +1,7 @@
 package com.questioncontrol.demo.Controller;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.questioncontrol.demo.Dto.User;
 import com.questioncontrol.demo.Service.UserService;
 import com.questioncontrol.demo.Service.impl.UserServiceImpl;
@@ -57,11 +58,12 @@ public class UserController {
         System.out.println(returnjson.toString());
         return returnjson.toString();
     }
-    @PostMapping(value = "/all")
+    @GetMapping(value = "/all")
     public List<User> getalluser()
     {
         return userService.getAlluser();
     }
+
     @DeleteMapping(value="/delete/{id}")
     public String deleteuser(@PathVariable int id)
     {
@@ -73,6 +75,11 @@ public class UserController {
         {
             return "{\"state\":\"ERROR\"}";
         }
+    }
+    @GetMapping(value = "/{id}")
+    public User GetUserdetail(@PathVariable int id)
+    {
+        return userService.GetUserbyid(id);
     }
 
 }

@@ -20,5 +20,5 @@ public interface UserService {
 
     int GetuserId(String username);
 
-
+    User GetUserbyid(int id);
 }

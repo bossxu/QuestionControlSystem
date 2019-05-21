@@ -65,7 +65,7 @@
 |key|date|description|
 |----|---|---|
 |quid|int|题目id|
-|qutype|varchar(10)|题目类型|
+|qutype|varchar(10)|题目类型,(数学,物理)|
 |qudetail|varchar(350)|题目内容|
 |quans|varchar(350)|题目答案|
 |quval|float|题目分值|
@@ -75,12 +75,29 @@
 
 
 ### questiontag
->知识点表
+> 知识点表
 
 |key|date|description|
 |---|---|---|
 |tagid|int|知识点id|
 |tagname|varchar(16)|知识点名称|
+
+### level
+> 年级表
+
+|key|type|description|
+|---|---|---|
+|levid|int||
+|levelname|string||
+
+### exampaper
+> 试卷表
+
+|key|type|description|
+|---|---|---|
+|examid|string||
+|examdate|string||
+|examname|string||
 
 ### tagconnect
 > 知识点题目联系表
@@ -98,242 +115,365 @@
 |quid|int|题目号|
 |levelid|int|年级号|
 
+### examconnect
+> 试卷题目联系表
 
+|key|type|description|
+|---|---|---|
+|examid|int||
+|examid|int||
 
 
 ## api接口通信规范
 
 ### 用户模块
 
-#### 登录
-
-**传入**
-
-|key|type|
-|----|----|
-|username|string|
-|password|string|
-
-**返回**
-
-|key|type|description|
-|----|----|----|
-|state|string|error/success|
-|token|string||
-|response|string|出错信息/或者返回的用户种类|
-> 如果state是error
-> 返回的是出错信息
-> 如果是state是success
-> 返回是登录用户的身份
-
-#### 用户信息查询
-
-api:
-
-|key|value|
-|----|---|
-|nums|int|
-|user||
-返回对于每个用户
-|key|type|description
-|---|---|---|
-|userid|int|唯一的标识|
-|username|string||
-|usertype|string|两种questionrecorder,或questionadmin|
-|useremail|string||
-|userphone|string|
-**for example**
+#### 注册
+api: **post /api/user/registe**  
 ```json
+postbody:
 {
-    "nums":1,
-    "1":{
-        "userid":"1",
-        "username":"langman",
-        "usertype":"questionadmin",
-        "useremail":"langman@gmail.com",
-        "userphone":"10086"
-    }
+	"username":"langman",
+	"userpwd":"1998129"
+}
+response:
+{
+    "response": {
+        "usertype": 0,
+        "id": 1,
+        "username": "langman"
+    },
+    "state": "success"
 }
 ```
-#### 用户删除
 
-**传入**
-api:
+#### 登录
+api: **post /api/user/login**
+```json
 
-|key|type|
-|---|---|
-|userid|int|
+postbody:
+    {
+        "username":"langman",
+        "userpwd":"1998129"
+    }
+response:
+success:
+{
+    "response": {
+        "usertype": 0,
+        "id": 1,
+        "username": "langman"
+    },
+    "state": "success"
+}
+error:
+{
+    "response": "登陆出错，用户名不存在或密码错误",
+    "state": "error"
+}
 
-**返回**
+```
+#### 获取所有用户
+api: **Get /api/user/all**
+```json
+response:
+[
+    {
+        "id": 1,
+        "username": "langman",
+        "userpwd": "1998129",
+        "usertype": 0
+    }
+]
+```
+#### 获取单个用户
+api: **Get /api/user/{id}**
+```json
+response:
+{
+    "id": 1,
+    "username": "langman",
+    "userpwd": "1998129",
+    "usertype": 0
+}
 
-|key|type|description|
-|---|---|---|
-|state|string|error,success|
-|information|string|报错信息，如果是error的话|
+```
+#### 删一个用户
+api: **Delete /api/user/{id}**
+```json
+response:
+{
+    "state": "SUCCESS"
+}
+```
 
 ### 题目模块
 
-#### 题目列表
-用来获得不完整信息
-api:
+#### 创建一个题目
+api: **post /api/question/create**
 
-|key|type|description|
-|----|----|----|
-|quid|int|题目编号|
-|qutagname|string|问题知识点名称|
-|quval|float|题目分值|
-|qudifficult|int|题目难度|
-|schoolname|string|学校姓名|
-|schooltype|string|试题对应难度(小学高中大学)|
-
-
-#### 获取单个题目
-api:
-
-**传入**
-
-|key|type|description|
-|----|-----|-----|
-|quid|int|题目编号|
-
-**返回**
-
-|key|type|descroption|
-|----|----|----|
-|quid|int|题目id|
-|qutype|string|题目类型|
-|qudetail|string|题目内容|
-|quans|string|题目答案|
-|quval|float|题目分值|
-|qudifficulty|int|题目难度|
-|schoolname|string|学校姓名|
-|schooltype|string|试题难度类型(小学,高中,大学)|
-|qutagname|json|试题知识点|
-|quleave|string|试题对应年纪|
-
-其中知识点对应的json格式
-for example:
 ```json
+postbody:
 {
-    "num":2,
-    "1":"动态规划",
-    "2":"kd tree"
-}
+        "qutype":"选择题",
+        "qudetail":"1+1=?",
+        "quans":"2",
+        "quval":1,
+        "qudifficult":1,
+        "schoolname":"上海大学",
+        "schooltype":"理工类",
+        "taglist":["math","算术"],
+        "levellist":["大一","大二"],
+        "examlist":["大一数学系月考","一年级数学系期末考"]
+   }
+response:
+{"state":"success"}
+
+```
+#### 题目列表
+api: **Get /api/question/all**  
+返回的是一个列表然后是基础信息
+```json
+response:
+[
+    {
+        "quid": 8,
+        "quval": 1,
+        "qudifficult": 1,
+        "schoolname": "上海大学",
+        "schooltype": "理工类",
+        "taglist": [
+            "math",
+            "算术"
+        ]
+    }
+]
+
+```
+#### 获取单个题目
+api: **Get /api/question/{id}**
+```json
+response:{
+             "quid": 8,
+             "qutype": "数学",
+             "qudetail": "1+1=?",
+             "quans": "2",
+             "quval": 1,
+             "qudifficult": 1,
+             "schoolname": "上海大学",
+             "schooltype": "理工类",
+             "taglist": [
+                 {
+                     "tagid": 6,
+                     "tagname": "math"
+                 },
+                 {
+                     "tagid": 7,
+                     "tagname": "算术"
+                 }
+             ],
+             "levelList": [
+                 {
+                     "levid": 4,
+                     "levelName": "大一"
+                 },
+                 {
+                     "levid": 5,
+                     "levelName": "大二"
+                 }
+             ],
+             "examlist": [
+                 {
+                     "examid": 2,
+                     "examname": "大一数学系月考",
+                     "examdate": "2019-05-21 22:49:19"
+                 },
+                 {
+                     "examid": 3,
+                     "examname": "一年级数学系期末考",
+                     "examdate": "2019-05-21 22:49:19"
+                 }
+             ]
+         }
+
 ```
 
 #### 单个题目更改
-api:
-> 目前感觉要联合动知识点表比较难，先做到改题目表
-
-**传入**
-
-|key|type|description|
-|---|----|----|
-|quid|int|题目id|
-|qutype|string|题目类型|
-|qudetail|string|题目内容|
-|quans|string|题目答案|
-|quval|float|题目分值|
-|qudifficulty|int|题目难度|
-|schoolname|string|学校姓名|
-|schooltype|string|试题难度类型(小学,高中,大学)|
-
-**返回**
-|key|type|descrption|
-|----|----|----|
-|state|string|success or error|
-
-#### 单个题目上传
-
-**传入**
-
-|key|type|description|
-|---|----|----|
-|quid|int|题目id|
-|qutype|string|题目类型|
-|qudetail|string|题目内容|
-|quans|string|题目答案|
-|quval|float|题目分值|
-|qudifficulty|int|题目难度|
-|schoolname|string|学校姓名|
-|schooltype|string|试题难度类型(小学,高中,大学)|
-|qulevel|string|对应年纪|
-|qutags|json|题目对应所有知识点名称|
-
-example
+api:**Post /api/question/create**
 ```json
+postbody:
 {
-    "qiud":"1",
-    "qutype":"math",
-    "qudetail":"1+1=?",
-    "quans":"2",
-    "quval":1,
-    "qudifficulty":0,
-    "schoolname":"上海大学",
-    "schooltype":"大学",
-    "qulevel":"大学一年级",
-    "qutag":{
-        "num":3,
-        "1":"数学",
-        "2":"基础数学",
-        "3":"高等数学"
-    }
+    "quid": "8",
+    "qutype": "数学",
+    "qudetail": "1+1=?",
+    "quans": "3",
+    "quval": 1,
+    "qudifficult": 1,
+    "schoolname": "上海大学",
+    "schooltype": "理工类",
+    "taglist": [
+        "math",
+        "算术"
+    ],
+    "levellist": [
+        "大一",
+        "大二"
+    ],
+    "examlist": [
+        "大一数学系月考",
+        "一年级数学系期末考"
+    ]
 }
+response:
+{
+    "state": "success"
+}
+
 ```
+
 #### 删除题目
-api:
 
-**传入**
-
-|key|type|
-|---|---|
-|quid|int|
-
-**返回**
-
-|key|type|description|
-|---|---|----|
-|state|string|error or success|
 
 #### 题目查询
-api
+api **Post /api/question/search**
 > 根据关键字进行查找
 
-**传入**
+```json
+postbody:
+{
+	"keyword":"上海"
+}
+response:
+[
+    {
+        "quid": 9,
+        "quval": 1,
+        "qudifficult": 1,
+        "schoolname": "上海大学",
+        "schooltype": "理工类",
+        "taglist": [
+            "算术",
+            "math"
+        ]
+    }
+]
+```
+### tag模块
 
-|key|type|description|
-|---|---|----|
-|quid|int|默认null|
-|tagname|string|默认没有|
-|qulevel|string|默认没有|
-|quval|float|默认没有|
-|qutype|string|题目类型|
-|qudifficulty|string|题目类型|
+#### 获取所有tag
+api: **Get /api/tag/all**
+```json
+response:
+[
+    {
+        "tagid": 6,
+        "tagname": "math"
+    },
+    {
+        "tagid": 7,
+        "tagname": "算术"
+    }
+]
+```
+#### 创建一个tag
+api: **post /api/tag/all**
+```json
+postbody:
+{
+	"tagname":"上海"
+}
+response:
+{
+    "state": "success"
+}
+```
 
-> 讲道理现在不晓得如何做到对一个题目多个标签进行查询
+#### 删除一个tag
+api: **delete /api/tag/delete/{id}**
+```json
+response:
+{
+    "state": "success"
+}
+```
+#### 获取这个tag搭边的所有题目
+api: **Get /api/tag/questions/{id}**
+```json
+response:
+[
+    {
+        "quid": 9,
+        "quval": 1,
+        "qudifficult": 1,
+        "schoolname": "上海大学",
+        "schooltype": "理工类",
+        "taglist": [
+            "算术",
+            "math"
+        ]
+    }
+]
+```
 
-**传出**
+### 年级搭边
+#### 获得所有的年级
+api: **Get /api/level/all**
+```json
+response:
+[
+    {
+        "levid": 4,
+        "levelName": "大一"
+    },
+    {
+        "levid": 5,
+        "levelName": "大二"
+    }
+]
+```
 
-|key|type|
-|---|---|
-|nums|int|
-|question|json|
-
-> 对于每一个question
-
-|key|type|description|
-|----|----|----|
-|quid|int|题目编号|
-|qutagname|string|问题知识点名称|
-|quval|float|题目分值|
-|qudifficult|int|题目难度|
-|schoolname|string|学校姓名|
-|schooltype|string|试题对应难度(小学高中大学)|
-
+### 试卷搭边
+#### 获得所有的试卷
+api: **get /api/exam/all**
+```json
+response:
+[
+    {
+        "examid": 2,
+        "examname": "大一数学系月考",
+        "examdate": "2019-05-21 22:49:19"
+    },
+    {
+        "examid": 3,
+        "examname": "一年级数学系期末考",
+        "examdate": "2019-05-21 22:49:19"
+    }
+]
+```
+#### 获得某个试卷里面所有的信息
+api:**Get /api/exam/questions/{id}**
+```json
+response:
+[
+    {
+        "quid": 9,
+        "quval": 1,
+        "qudifficult": 1,
+        "schoolname": "上海大学",
+        "schooltype": "理工类",
+        "taglist": [
+            "算术",
+            "math"
+        ]
+    }
+]
+```
 ## 组卷
 
 > 还不晓得怎么搞，先写那个给我的值把
 
 |key|type|description|
 |----|----|----|
-|
+|qutype|String|这个是固定的几个标签，数学还是物理啥的|
+|quval|int|这个是这个卷子的总分数|
+|qudifficult|int|这个是卷子的难度定义|

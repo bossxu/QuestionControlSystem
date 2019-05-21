@@ -68,4 +68,9 @@ public class UserServiceImpl implements UserService {
     public int GetuserId(String username) {
         return GetUser(username).getId();
     }
+
+    @Override
+    public User GetUserbyid(int id) {
+        return userReponsitory.findById(id).get();
+    }
 }

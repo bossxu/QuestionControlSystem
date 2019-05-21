@@ -45,7 +45,7 @@ public class QuestionController {
         questionService.createQuestion(questiondto);
         return "{\"state\":\"success\"}";
     }
-    @PostMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public QuestionData GetOnequestiondetail(@PathVariable int id)
     {
         return questionService.GetQuestionDetail(id);

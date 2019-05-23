@@ -37,8 +37,7 @@ public class DemoApplicationTests {
 
     @Test
     public void contextLoads() throws Exception{
-      List<QuestionInfo> list = questionServiceimpl.GetAllQuestioninfo();
-
+      questionDAtaReponsitory.findbyqutype("math");
     }
 
 }

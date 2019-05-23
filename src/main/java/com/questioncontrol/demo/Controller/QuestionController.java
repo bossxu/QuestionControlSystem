@@ -2,10 +2,7 @@ package com.questioncontrol.demo.Controller;
 
 
 import com.questioncontrol.demo.Dao.QuestionDAtaReponsitory;
-import com.questioncontrol.demo.Dto.Keydto;
-import com.questioncontrol.demo.Dto.QuestionData;
-import com.questioncontrol.demo.Dto.QuestionInfo;
-import com.questioncontrol.demo.Dto.Questiondto;
+import com.questioncontrol.demo.Dto.*;
 import com.questioncontrol.demo.Service.impl.QuestionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -66,4 +63,9 @@ public class QuestionController {
         return questionService.GetQuestionlistbykey(keydto.getKeyword());
     }
 
+    @PostMapping(value = "/exam")
+    public List<Integer> GetQuestionExam(@RequestBody Recommed recommed)
+    {
+        return questionService.GetrecommedQuestionlist(recommed);
+    }
 }

@@ -15,4 +15,7 @@ public interface QuestionDAtaReponsitory extends CrudRepository<QuestionData,Int
             "(q.quans like CONCAT('%',?1,'%'))",nativeQuery=true
     )
     List<QuestionData> findBykeyword(String keyword);
+
+    @Query(value = "select * from questiondata q where q.qutype=?1",nativeQuery=true)
+    List<QuestionData> findbyqutype(String qutype);
 }

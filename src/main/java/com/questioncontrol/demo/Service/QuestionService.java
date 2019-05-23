@@ -43,4 +43,6 @@ public interface QuestionService {
     List<Level> GetallLevel();
 
     List<Exampaper> GetallExam();
+
+    List<Integer> GetrecommedQuestionlist(Recommed recommed);
 }

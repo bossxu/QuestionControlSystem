@@ -7,6 +7,7 @@ import com.questioncontrol.demo.Dao.QuestionDAtaReponsitory;
 import com.questioncontrol.demo.Dao.QuestionTagReponsitory;
 import com.questioncontrol.demo.Dto.*;
 import com.questioncontrol.demo.Service.QuestionService;
+import com.questioncontrol.demo.util.Recommedalgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -206,5 +207,11 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public String gettagnamebyid(int tagid) {
         return questionTagReponsitory.findById(tagid).get().getTagname();
+    }
+
+    @Override
+    public List<Integer> GetrecommedQuestionlist(Recommed recommed) {
+        Recommedalgorithm algorithm = new Recommedalgorithm(recommed , questionDataReponsitory.findbyqutype(recommed.getQutype()));
+        return algorithm.Getquestionslist();
     }
 }

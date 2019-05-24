@@ -64,7 +64,7 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/exam")
-    public List<Integer> GetQuestionExam(@RequestBody Recommed recommed)
+    public List<QuestionInfo> GetQuestionExam(@RequestBody Recommed recommed)
     {
         return questionService.GetrecommedQuestionlist(recommed);
     }

@@ -12,6 +12,7 @@ public class QuestionInfo {
     private int qudifficult;
     private String schoolname;
     private String schooltype;
+    private String qudetail;
     private List<String> taglist;
 
     public QuestionInfo(){
@@ -24,11 +25,20 @@ public class QuestionInfo {
         this.qudifficult = questiondetail.getQudifficult();
         this.schoolname = questiondetail.getSchoolname();
         this.schooltype = questiondetail.getSchooltype();
+        this.qudetail = questiondetail.getQudetail();
         this.taglist = new ArrayList<>();
         for(int i = 0;i<questiondetail.getTaglist().size();i++)
         {
             this.taglist.add(questiondetail.getTaglist().get(i).getTagname());
         }
+    }
+
+    public String getQudetail() {
+        return qudetail;
+    }
+
+    public void setQudetail(String qudetail) {
+        this.qudetail = qudetail;
     }
 
     public int getQuid() {

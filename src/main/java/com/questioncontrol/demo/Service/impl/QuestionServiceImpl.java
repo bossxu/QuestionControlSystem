@@ -210,8 +210,15 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Integer> GetrecommedQuestionlist(Recommed recommed) {
+    public List<QuestionInfo> GetrecommedQuestionlist(Recommed recommed) {
         Recommedalgorithm algorithm = new Recommedalgorithm(recommed , questionDataReponsitory.findbyqutype(recommed.getQutype()));
-        return algorithm.Getquestionslist();
+        List<Integer> questionlist = algorithm.Getquestionslist();
+        Iterator<Integer> it = questionlist.listIterator();
+        List<QuestionInfo> results = new ArrayList<>();
+        while(it.hasNext())
+        {
+            results.add(new QuestionInfo(questionDataReponsitory.findById(it.next()).get()));
+        }
+        return results;
     }
 }

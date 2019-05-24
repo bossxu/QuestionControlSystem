@@ -17,8 +17,6 @@ public class Recommedalgorithm {
     List<questionstruct> questionlist = new ArrayList<>();
     que [][]dp = new que[30][200];
 
-    @Autowired
-    QuestionDAtaReponsitory questionDAtaReponsitory;
 
     public Recommedalgorithm(Recommed recommed, List<QuestionData> questions)
     {
@@ -55,9 +53,10 @@ public class Recommedalgorithm {
     {
         List<Integer> questions = new ArrayList<>();
         Get(0,0,0,0,-1);
+        List<Integer> results = new ArrayList<>();
         if(dp[recommed.getNum()][recommed.getValue()].pre == -1)
         {
-            return questions;
+            return results;
         }
         int num = recommed.getNum();
         int value = recommed.getValue();
@@ -67,7 +66,13 @@ public class Recommedalgorithm {
             value -= this.questionlist.get(dp[num][value].pre).quval;
             num -= 1;
         }
-        return questions;
+
+        for (int i = 0;i<questions.size();i++)
+        {
+            questionstruct qus = questionlist.get(questions.get(i));
+            results.add(qus.quid);
+        }
+        return results;
     }
 
 }
